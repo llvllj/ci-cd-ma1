@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/username/my_project.git'
+                git 'https://github.com/llvllj/ci-cd-ma1.git'
             }
         }
 
@@ -23,6 +23,17 @@ pipeline {
                     junit '**/target/surefire-reports/*.xml'
                     jacoco execPattern: '**/target/jacoco.exec'
                 }
+            }
+        }
+
+        stage('Codacy Analysis') {
+            steps {
+                sh 'mvn jacoco:report'
+                codacy(
+                    pattern: '**/target/site/jacoco/jacoco.xml',
+                    projectToken: 'llvllj-project',
+                    failOnNewCoverage: true
+                )
             }
         }
     }
