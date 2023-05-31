@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: log-script-dev
+  labels:
+    app: log-script
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: log-script
+  template:
+    metadata:
+      labels:
+        app: log-script
+    spec:
+      containers:
+      - name: log-script
+        image: localhost:5000/log-script:v1
+        ports:
+        - containerPort: 80
